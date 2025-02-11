@@ -1,12 +1,22 @@
 import Experience from "@/components/sphere/Experience";
 import Above from "@/components/above";
+import getPortfolio from "@/lib/sanity/getPortfolio";
+import getAbout from "@/lib/sanity/getIntro";
+import Card from "@/components/portfolio/Card";
 
-export default function Home() {
+export default async function Home() {
+  const portfolio = await getPortfolio();
+  const about = await getAbout();
   return (
     <main>
       <Experience />
       <Above />
-      <div className="w-full h-10">occupying the space</div>
+      {/* portfolio */}
+      <ul className="grid h-screen grid-cols-3 gap-4">
+        {portfolio.map((item) => {
+          return <Card key={item.slug} item={item} />;
+        })}
+      </ul>
     </main>
   );
 }
