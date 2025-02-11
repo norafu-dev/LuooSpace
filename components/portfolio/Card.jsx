@@ -13,7 +13,7 @@ const Card = ({ item }) => {
       </figure>
       <h3 className="text-3xl font-[500] mt-8 mb-2">{title}</h3>
       <Description description={description} />
-      <p className="text-sm text-gray-800 mt-4 italic">{category}</p>
+      <p className="mt-4 text-sm italic text-gray-800">{category}</p>
     </Link>
   );
 };
