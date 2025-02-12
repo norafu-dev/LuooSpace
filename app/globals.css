@@ -51,3 +51,9 @@ body {
 .hamburger-icon:hover line {
   stroke: var(--background);
 }
+
+.will-change-transform {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}

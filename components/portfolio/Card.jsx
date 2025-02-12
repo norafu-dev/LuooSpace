@@ -8,7 +8,7 @@ const Card = ({ item }) => {
 
   return (
     <Link href={`/portfolio/${slug}`} className="flex flex-col items-center">
-      <figure style={{ aspectRatio: ratio }} className="relative w-full">
+      <figure style={{ aspectRatio: 2 }} className="relative w-full">
         <Image src={imgUrl} alt={title} fill />
       </figure>
       <h3 className="text-3xl font-[500] mt-8 mb-2">{title}</h3>

@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <nav>
       <div className="h-[72px]"></div>
-      <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between px-8 py-6">
+      <div className="fixed top-0 left-0 right-0 z-[50] flex items-center justify-between px-8 py-6">
         <ul className="flex items-center gap-2">
           <li className="text-xs rounded-border">中</li>
           <li className="text-sm text-white bg-black rounded-border">EN</li>
