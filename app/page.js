@@ -12,6 +12,7 @@ export default async function Home() {
     <main>
       <Experience />
       <Above />
+      <div className="h-screen"></div>
       {/* portfolio */}
       <ul className="grid h-screen grid-cols-3 gap-4">
         {portfolio.map((item) => {

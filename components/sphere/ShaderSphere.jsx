@@ -40,6 +40,7 @@ export default function Sphere() {
     hover: 0,
     wave: 0,
     rotSpeed: animationConfig.rotation.normalSpeed,
+    scrollScale: 1.0,
   });
 
   // 入场动画
@@ -56,22 +57,68 @@ export default function Sphere() {
     }
   }, []);
 
+  // 添加滚动监听
+  useEffect(() => {
+    const handleScroll = () => {
+      if (meshRef.current) {
+        // 获取视口高度
+        const viewportHeight = window.innerHeight;
+        // 获取当前滚动位置
+        const currentScroll = window.scrollY;
+
+        // 只有当滚动超过100vh时才开始计算缩放
+        if (currentScroll > viewportHeight) {
+          // 计算超出100vh后的滚动百分比
+          const scrollPercent =
+            ((currentScroll - viewportHeight) /
+              (document.documentElement.scrollHeight -
+                window.innerHeight -
+                viewportHeight)) *
+            5;
+
+          const targetScale = gsap.utils.interpolate(
+            1.0,
+            0.2,
+            Math.min(1, scrollPercent)
+          );
+          transitionRef.current.scrollScale = targetScale;
+
+          gsap.to(meshRef.current.scale, {
+            x: targetScale,
+            y: targetScale,
+            z: targetScale,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        } else {
+          // 在100vh之前保持原始大小
+          transitionRef.current.scrollScale = 1.0;
+          gsap.to(meshRef.current.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // 每帧更新
   useFrame((state) => {
     if (meshRef.current) {
-      // 平滑缩放动画
+      // 修改缩放动画，将滚动缩放值纳入考虑
+      const hoverScale = isHovered
+        ? animationConfig.hover.scaleUp
+        : animationConfig.hover.scaleNormal;
+      const targetScale = hoverScale * transitionRef.current.scrollScale;
+
       meshRef.current.scale.lerp(
-        new THREE.Vector3(
-          isHovered
-            ? animationConfig.hover.scaleUp
-            : animationConfig.hover.scaleNormal,
-          isHovered
-            ? animationConfig.hover.scaleUp
-            : animationConfig.hover.scaleNormal,
-          isHovered
-            ? animationConfig.hover.scaleUp
-            : animationConfig.hover.scaleNormal
-        ),
+        new THREE.Vector3(targetScale, targetScale, targetScale),
         animationConfig.hover.transitionSpeed
       );
 
