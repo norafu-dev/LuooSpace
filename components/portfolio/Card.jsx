@@ -19,20 +19,44 @@ const Card = ({ item }) => {
 };
 
 const Description = ({ description }) => {
-  // 分三行显示，第一行字数最多，是总字数的三分之一，第二行字数次多，第三行字数最少，呈现倒三角。
-  const lines = description.split(" ");
-  const firstLine = lines
-    .slice(0, Math.floor((lines.length * 5) / 15))
-    .join(" ");
-  const secondLine = lines
-    .slice(
-      Math.floor((lines.length * 5) / 15),
-      Math.floor((lines.length * 10) / 15)
-    )
-    .join(" ");
-  const thirdLine = lines.slice(Math.floor((lines.length * 10) / 15)).join(" ");
+  const maxLineLength = 65; // 第一行最大字符数
+
+  // 将文本按照空格分割成单词数组
+  const words = description.split(" ");
+  let firstLine = "";
+  let secondLine = "";
+  let thirdLine = "";
+  let currentLength = 0;
+
+  // 构建第一行
+  for (let i = 0; i < words.length; i++) {
+    if (currentLength + words[i].length <= maxLineLength) {
+      firstLine += (firstLine ? " " : "") + words[i];
+      currentLength += words[i].length + 1;
+    } else {
+      // 第二行
+      currentLength = 0;
+      for (let j = i; j < words.length; j++) {
+        if (currentLength + words[j].length <= maxLineLength * 0.78) {
+          secondLine += (secondLine ? " " : "") + words[j];
+          currentLength += words[j].length + 1;
+          i = j;
+        } else {
+          // 第三行
+          thirdLine = words.slice(j).join(" ");
+          if (thirdLine.length > maxLineLength * 0.56) {
+            thirdLine =
+              thirdLine.substring(0, Math.floor(maxLineLength * 0.56)) + "...";
+          }
+          break;
+        }
+      }
+      break;
+    }
+  }
+
   return (
-    <p className="text-sm text-center font-[100] text-zinc-500">
+    <p className="text-sm text-center font-[100] text-zinc-500 max-w-[500px]">
       {firstLine}
       <br />
       {secondLine}

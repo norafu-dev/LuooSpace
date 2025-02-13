@@ -66,16 +66,13 @@ export default function Experience() {
   // 鼠标移动相关：结束处理 Canvas 鼠标移动事件，更新控制器和相机偏移
 
   return (
-    // Canvas 是 Three.js 的渲染容器
     <Canvas
       // 设置相机初始位置
       camera={{ position: [0, 0, 4] }}
-      // 修改画布样式，将背景色改为浅灰色
       style={{
         position: "fixed",
         width: "100vw",
         height: "150vh",
-        // 居中显示
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",

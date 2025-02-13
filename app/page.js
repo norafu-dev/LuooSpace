@@ -15,6 +15,7 @@ export default async function Home() {
       <div className="h-screen"></div>
       {/* portfolio */}
       <HorizontalScroll portfolio={portfolio} />
+      <div className="h-[200vh]"></div>
       {/* about */}
       <ul>
         {about.map((item, index) => {

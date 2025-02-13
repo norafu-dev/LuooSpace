@@ -8,7 +8,7 @@ const About = ({ item }) => {
   const { imgUrl, ratio } = getImageInfo(image);
 
   return (
-    <section className="h-fit mb-[30vh] px-4 md:px-8 grid grid-cols-22">
+    <section className="h-fit mb-[30vh] px-4 md:px-8 grid grid-cols-22 z-[100]">
       {/* key points */}
       <div className="col-span-full md:col-span-4 h-fit border border-black py-6 px-[14px]">
         <ul className="space-y-1.5">

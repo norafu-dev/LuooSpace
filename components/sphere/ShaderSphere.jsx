@@ -61,26 +61,35 @@ export default function Sphere() {
   useEffect(() => {
     const handleScroll = () => {
       if (meshRef.current) {
-        // 获取视口高度
         const viewportHeight = window.innerHeight;
-        // 获取当前滚动位置
         const currentScroll = window.scrollY;
 
-        // 只有当滚动超过100vh时才开始计算缩放
-        if (currentScroll > viewportHeight) {
-          // 计算超出100vh后的滚动百分比
-          const scrollPercent =
-            ((currentScroll - viewportHeight) /
-              (document.documentElement.scrollHeight -
-                window.innerHeight -
-                viewportHeight)) *
-            5;
+        // 计算当前在第几屏
+        const currentScreen = Math.floor(currentScroll / viewportHeight);
 
-          const targetScale = gsap.utils.interpolate(
-            1.0,
-            0.2,
-            Math.min(1, scrollPercent)
-          );
+        if (currentScroll > viewportHeight) {
+          let targetScale = 1.0;
+
+          if (currentScreen < 4) {
+            // 在第2-3屏逐渐缩小到0.2
+            const scrollPercent =
+              ((currentScroll - viewportHeight) / (2 * viewportHeight)) * 5;
+            targetScale = gsap.utils.interpolate(
+              1.0,
+              0.2,
+              Math.min(1, scrollPercent)
+            );
+          } else {
+            // 在第4屏开始逐渐变大到1.5
+            const scrollPercent =
+              (currentScroll - 4 * viewportHeight) / viewportHeight;
+            targetScale = gsap.utils.interpolate(
+              0.2,
+              1.5,
+              Math.min(1, scrollPercent)
+            );
+          }
+
           transitionRef.current.scrollScale = targetScale;
 
           gsap.to(meshRef.current.scale, {
@@ -91,7 +100,7 @@ export default function Sphere() {
             ease: "power2.out",
           });
         } else {
-          // 在100vh之前保持原始大小
+          // 在第一屏保持原始大小
           transitionRef.current.scrollScale = 1.0;
           gsap.to(meshRef.current.scale, {
             x: 1,
