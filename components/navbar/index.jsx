@@ -5,7 +5,7 @@ import HamburgerMenuIcon from "@/components/icons/HamburgerMenuIcon";
 const Navbar = () => {
   return (
     <nav>
-      <div className="h-[72px]"></div>
+      {/* <div className="h-[72px]"></div> */}
       <div className="fixed top-0 left-0 right-0 z-[50] flex items-center justify-between px-8 py-6">
         <ul className="flex items-center gap-2">
           <li className="text-xs rounded-border">中</li>
