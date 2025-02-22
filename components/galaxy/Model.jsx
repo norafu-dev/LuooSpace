@@ -18,7 +18,7 @@ const Model = ({ boards, activeIndex }) => {
   const { scene } = useGLTF(board.model);
 
   return (
-    <primitive object={scene} position={[0, 0, 0]} scale={board.scale || 1} />
+    <primitive object={scene} position={[0, 0, 0]} scale={board.scale || 20} />
   );
 };
 
